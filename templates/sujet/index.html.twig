@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sujet index{% endblock %}
+
+{% block body %}
+    <h1>Sujet index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Contenu</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sujet in sujets %}
+            <tr>
+                <td>{{ sujet.id }}</td>
+                <td>{{ sujet.titre }}</td>
+                <td>{{ sujet.contenu }}</td>
+                {% for commentaire in commentaires %}
+                {% if commentaire.sujet_id == sujet.id %}
+                <td>{{ commentaire.contenu }}</td>
+                {% endif %}
+                {% endfor %}
+                <td>
+                    <a href="{{ path('app_sujet_show', {'id': sujet.id}) }}">show</a>
+                    <a href="{{ path('app_sujet_edit', {'id': sujet.id}) }}">edit</a>
+                    <a href="{{ path('app_commentaire_new') }}">commenter</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sujet_new') }}">Create new</a>
+{% endblock %}
